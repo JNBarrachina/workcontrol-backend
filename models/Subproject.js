@@ -15,5 +15,7 @@ const Subproject = db.sequelize.define(
   );
 
 Subproject.hasMany(EmployeeWorkEntry);
-  
+EmployeeWorkEntry.belongsTo(Subproject);
+
+
 module.exports = Subproject;

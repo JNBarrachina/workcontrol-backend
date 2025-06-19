@@ -1,7 +1,6 @@
 const { DataTypes } = require("sequelize");
 const db = require("../db");
 
-const Employee = require("./Employee");
 const Subproject = require("./Subproject");
 
 const Project = db.sequelize.define("Projects", {
@@ -11,7 +10,6 @@ const Project = db.sequelize.define("Projects", {
 
 
 Project.hasMany(Subproject);
-Subproject.belongsTo(Project, { foreignKey: "project_id" });
-
+Subproject.belongsTo(Project);
 
 module.exports = Project;

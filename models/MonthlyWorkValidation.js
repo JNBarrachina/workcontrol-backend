@@ -1,8 +1,6 @@
 const { DataTypes } = require("sequelize");
 const db = require("../db");
 
-const Employee = require("./Employee");
-
 const MonthlyWorkValidation = db.sequelize.define("MonthlyWorkValidation", {
 
     year: {

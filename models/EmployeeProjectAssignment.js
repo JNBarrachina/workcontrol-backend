@@ -4,7 +4,7 @@ const db = require("../db");
 const Employee = require("./Employee");
 const Project = require("./Project");
 
-const EmployeeProjectAssignment = db.sequelize.define("EmployeeProjectAssignment", {
+const EmployeeProjectAssignment = db.sequelize.define("EmployeeProjectAssignments", {
     assignedAt: {
         type: DataTypes.DATE,
         allowNull: false,

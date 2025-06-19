@@ -4,6 +4,15 @@ const express = require("express");
 const cors = require("cors");
 const db = require("./db")
 
+require("./models/Employee");
+require("./models/Project");
+require("./models/Subproject");
+require("./models/DayCode");
+require("./models/EmployeeDailyCalendar");
+require("./models/EmployeeWorkEntry");
+require("./models/MonthlyWorkValidation");
+require("./models/EmployeeProjectAssignment");
+
 const usersRouter = require("./routes/users.routes");
 
 const main = () => {

@@ -37,18 +37,19 @@ const Employee = db.sequelize.define(
       }
     },
   );
+  
 
-
-Employee.hasMany(Project, { foreignKey: "created_by" });
+Employee.hasMany(Project);
 Project.belongsTo(Employee, { foreignKey: "created_by" });
 
-Employee.hasMany(EmployeeDailyCalendar, { foreignKey: "employee_id" });
-EmployeeDailyCalendar.belongsTo(Employee, { foreignKey: "employee_id" });
+Employee.hasMany(EmployeeDailyCalendar);
+EmployeeDailyCalendar.belongsTo(Employee);
 
-Employee.hasMany(EmployeeWorkEntry, { foreignKey: "employee_id" });
+Employee.hasMany(EmployeeWorkEntry);
+EmployeeWorkEntry.belongsTo(Employee);
 
-Employee.hasMany(MonthlyWorkValidation, { foreignKey: "employee_id" });
-MonthlyWorkValidation.belongsTo(Employee, { foreignKey: "employee_id" });
+Employee.hasMany(MonthlyWorkValidation);
+MonthlyWorkValidation.belongsTo(Employee);
 
 
 module.exports = Employee;
