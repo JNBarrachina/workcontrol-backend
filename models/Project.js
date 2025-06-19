@@ -1,19 +1,17 @@
 const { DataTypes } = require("sequelize");
 const db = require("../db");
 
-const projectModel = db.sequelize.define(
-    'Projects',
-    {
-      name: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      description: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-    },
-  );
+const Employee = require("./Employee");
+const Subproject = require("./Subproject");
 
-  
-module.exports = projectModel;
+const Project = db.sequelize.define("Projects", {
+  name: DataTypes.STRING,
+  description: DataTypes.TEXT
+});
+
+
+Project.hasMany(Subproject);
+Subproject.belongsTo(Project, { foreignKey: "project_id" });
+
+
+module.exports = Project;

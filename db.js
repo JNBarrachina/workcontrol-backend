@@ -1,7 +1,7 @@
 const { Sequelize } = require('sequelize');
 
 const sequelize = new Sequelize(
-    'librarydb', 'root', 'root', {  //Password123#@! or root;
+    'workcontroldb', 'root', 'Password123#@!', { //Password123#@! or root
         host: 'localhost',
         dialect: 'mysql'
 });

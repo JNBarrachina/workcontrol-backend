@@ -1,7 +1,10 @@
 const { DataTypes } = require("sequelize");
 const db = require("../db");
 
-const subprojectModel = db.sequelize.define(
+const Project = require("./Project");
+const EmployeeWorkEntry = require("./EmployeeWorkEntry");
+
+const Subproject = db.sequelize.define(
     'Subprojects',
     {
       name: {
@@ -11,5 +14,6 @@ const subprojectModel = db.sequelize.define(
     },
   );
 
+Subproject.hasMany(EmployeeWorkEntry);
   
-module.exports = subprojectModel;
+module.exports = Subproject;

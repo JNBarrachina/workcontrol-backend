@@ -14,13 +14,18 @@ const main = () => {
 
   app.use("/users", usersRouter);
 
-  db.sequelize.sync({alter: true}).then(() => {
-    console.log("Base de datos sincronizada correctamente.")
-  })
+  db.sequelize.sync({ alter: true } )
+    .then(() => {
+      console.log("Base de datos sincronizada correctamente.");
 
-  app.listen(port, () => {
-    console.log(`Escuchando...`);
-  });
-}
+      app.listen(port, () => {
+        console.log(`Servidor escuchando en puerto ${port}`);
+      });
+    })
+
+    .catch((error) => {
+      console.error("Error sincronizando base de datos:", error);
+    });
+};
 
 main();
