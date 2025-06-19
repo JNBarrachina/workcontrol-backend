@@ -1,4 +1,4 @@
-const {User} = require("../models/User");
+const { userModel } = require("../models/User");
 const bcryptjs = require("bcryptjs");
 
 const jwt = require("jsonwebtoken");
@@ -8,4 +8,4 @@ const loginUser = async (req, res) => {
 
 }
 
-module.exports = { loginUser, registerUser };
+module.exports = { loginUser };
