@@ -1,4 +1,5 @@
 const port = 3000;
+const mysql = './db.js';
 
 const express = require("express");
 const cors = require("cors");
@@ -22,6 +23,22 @@ const main = () => {
   app.use(express.json());
 
   app.use("/users", usersRouter);
+
+  // Cual es url del endpoint
+  /*
+  app.get('/', (res, req)=>{
+    // req.rol
+    let res; 
+      if(req.rol == 'admin'){
+        
+      }
+
+      if(){
+        
+      }
+      res.sta
+  })
+  */
 
   db.sequelize.sync({ alter: true } )
     .then(() => {
