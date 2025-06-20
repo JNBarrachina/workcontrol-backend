@@ -1,10 +1,16 @@
+const { Employee } = require("../models/Employee");
+
 const bcryptjs = require("bcryptjs");
 
 //const jwt = require("jsonwebtoken");
 
 const loginUser = async (req, res) => {
     const { name, password } = req.body;
-    const user = await Employee.findOne({ name: name });
+    const user = await Employee.findOne({ where: { name: name } });
+
+    //const hashedPassword = bcryptjs.hashSync(password);
+    //res.send(hashedPassword);
+    //return;
     console.log(user);
     if (!user) {
         res.status(404).send({ msg: "INCORRECT_USERNAME" });
