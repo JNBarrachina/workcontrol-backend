@@ -12,6 +12,7 @@ const loginUser = async (req, res) => {
     //res.send(hashedPassword);
     //return;
     console.log(user);
+    res.status(200).send(user);
     if (!user) {
         res.status(404).send({ msg: "INCORRECT_USERNAME" });
         return;
