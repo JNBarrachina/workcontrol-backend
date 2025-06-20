@@ -1,8 +1,9 @@
+//Rama Tomas
 const port = 3000;
 
 const express = require("express");
 const cors = require("cors");
-const db = require("./db")
+const db = require("./db");
 
 require("./models/Employee");
 require("./models/Project");
@@ -16,25 +17,26 @@ require("./models/EmployeeProjectAssignment");
 const usersRouter = require("./routes/users.routes");
 
 const main = () => {
-  const app = express();
+    const app = express();
 
-  app.use(cors());
-  app.use(express.json());
+    app.use(cors());
+    app.use(express.json());
 
-  app.use("/users", usersRouter);
+    app.use("/users", usersRouter);
 
-  db.sequelize.sync({ alter: true } )
-    .then(() => {
-      console.log("Base de datos sincronizada correctamente.");
+    db.sequelize
+        .sync()
+        .then(() => {
+            console.log("Base de datos sincronizada correctamente.");
 
-      app.listen(port, () => {
-        console.log(`Servidor escuchando en puerto ${port}`);
-      });
-    })
+            app.listen(port, () => {
+                console.log(`Servidor escuchando en puerto ${port}`);
+            });
+        })
 
-    .catch((error) => {
-      console.error("Error sincronizando base de datos:", error);
-    });
+        .catch((error) => {
+            console.error("Error sincronizando base de datos:", error);
+        });
 };
 
 main();

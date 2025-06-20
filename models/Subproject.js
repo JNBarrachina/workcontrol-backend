@@ -4,17 +4,19 @@ const db = require("../db");
 const EmployeeWorkEntry = require("./EmployeeWorkEntry");
 
 const Subproject = db.sequelize.define(
-    'Subprojects',
+    "Subprojects",
     {
-      name: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
+        name: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
     },
-  );
+    {
+        timestamps: false,
+    }
+);
 
 Subproject.hasMany(EmployeeWorkEntry);
 EmployeeWorkEntry.belongsTo(Subproject);
-
 
 module.exports = Subproject;
