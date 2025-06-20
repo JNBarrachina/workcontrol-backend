@@ -40,7 +40,6 @@ const Employee = db.sequelize.define(
   
 
 Employee.hasMany(Project);
-Project.belongsTo(Employee, { foreignKey: "created_by" });
 
 Employee.hasMany(EmployeeDailyCalendar);
 EmployeeDailyCalendar.belongsTo(Employee);
