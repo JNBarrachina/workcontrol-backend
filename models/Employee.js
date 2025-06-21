@@ -27,6 +27,13 @@ const Employee = db.sequelize.define(
             allowNull: false,
             unique: true,
         },
+        tlf: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        avatar: {
+            type: DataTypes.STRING,
+        },
         password: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -40,8 +47,6 @@ const Employee = db.sequelize.define(
         timestamps: false,
     }
 );
-
-Employee.hasMany(Project);
 
 Employee.hasMany(EmployeeDailyCalendar);
 EmployeeDailyCalendar.belongsTo(Employee);

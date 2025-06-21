@@ -12,10 +12,6 @@ const EmployeeProjectAssignment = db.sequelize.define(
             allowNull: false,
             defaultValue: DataTypes.NOW,
         },
-        isActive: {
-            type: DataTypes.BOOLEAN,
-            defaultValue: true,
-        },
     },
     {
         timestamps: false,

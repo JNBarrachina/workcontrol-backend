@@ -1,7 +1,6 @@
 const { DataTypes } = require("sequelize");
 const db = require("../db");
 
-const Employee = require("./Employee");
 const DayCode = require("./DayCode");
 
 const EmployeeDailyCalendar = db.sequelize.define(

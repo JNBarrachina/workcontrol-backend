@@ -6,8 +6,14 @@ const Subproject = require("./Subproject");
 const Project = db.sequelize.define(
     "Projects",
     {
-        name: DataTypes.STRING,
-        description: DataTypes.TEXT,
+        name: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        isEuropean: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+        },
     },
     {
         timestamps: false,
