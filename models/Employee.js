@@ -27,6 +27,13 @@ const Employee = db.sequelize.define(
             allowNull: false,
             unique: true,
         },
+        tlf: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        avatar: {
+            type: DataTypes.STRING,
+        },
         password: {
             type: DataTypes.STRING,
             allowNull: false,
