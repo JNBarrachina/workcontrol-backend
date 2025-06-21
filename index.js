@@ -1,5 +1,6 @@
 //Rama Tomas
 const port = 3000;
+const mysql = './db.js';
 
 const express = require("express");
 const cors = require("cors");
@@ -28,6 +29,7 @@ const main = () => {
         .sync({alter: true})
         .then(() => {
             console.log("Base de datos sincronizada correctamente.");
+
 
             app.listen(port, () => {
                 console.log(`Servidor escuchando en puerto ${port}`);
