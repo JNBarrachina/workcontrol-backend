@@ -25,7 +25,7 @@ const main = () => {
     app.use("/users", usersRouter);
 
     db.sequelize
-        .sync( {alter: true} )
+        .sync({alter: true})
         .then(() => {
             console.log("Base de datos sincronizada correctamente.");
 
