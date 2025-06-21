@@ -5,8 +5,8 @@ const bcryptjs = require("bcryptjs");
 //const jwt = require("jsonwebtoken");
 
 const loginUser = async (req, res) => {
-    const { name, password } = req.body;
-    const user = await Employee.findOne({ where: { name: name } });
+    const { email, password } = req.body;
+    const user = await Employee.findOne({ where: { email: email } });
 
     //const hashedPassword = bcryptjs.hashSync(password);
     //res.send(hashedPassword);
