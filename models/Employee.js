@@ -48,8 +48,6 @@ const Employee = db.sequelize.define(
     }
 );
 
-Employee.hasMany(Project);
-
 Employee.hasMany(EmployeeDailyCalendar);
 EmployeeDailyCalendar.belongsTo(Employee);
 
