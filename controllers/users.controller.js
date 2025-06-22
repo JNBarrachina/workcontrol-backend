@@ -2,11 +2,14 @@ const Employee = require("../models/Employee");
 
 const bcryptjs = require("bcryptjs");
 
-//const jwt = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
+
+const { jwt_secret } = require("../config/config.json")["development"];
 
 const loginUser = async (req, res) => {
-    const { name, password } = req.body;
-    const user = await Employee.findOne({ where: { name: name } });
+    const { email, password } = req.body;
+    try{
+    const user = await Employee.findOne({ where: { email: email } });
 
     //const hashedPassword = bcryptjs.hashSync(password);
     //res.send(hashedPassword);
@@ -23,13 +26,14 @@ const loginUser = async (req, res) => {
         return;
     }
     //USUARIO Y PASSWORD VALIDO
-    // Generar un token con el userId en el payload .sign()
+    // Generar un token con el userId y el role en el payload .sign()
     // y un jwt secret
-    //let token = jwt.sign({ id: createdMember.id }, jwt_secret);
-    //const accessToken = jsonwebtoken.sign({ userId: user._id }, JWT_SECRET);
-    //res.send({ accessToken });
-    //res.status(201).send({ llave: createdMember.id });
-    //res.status(201).send({ token: token });
+    let token = jwt.sign({ id: user.id, role: user.role }, jwt_secret);
+    res.status(201).send({ accessToken: token });
+    }catch (err){
+        console.error("Login error:", err);
+        return res.status(500).send({ msg: "SERVER_ERROR" });
+    }
 };
 
 module.exports = { loginUser };
