@@ -15,6 +15,7 @@ require("./models/MonthlyWorkValidation");
 require("./models/EmployeeProjectAssignment");
 
 const usersRouter = require("./routes/users.routes");
+const calendarRouter = require("./routes/calendar.routes");
 
 const main = () => {
     const app = express();
@@ -23,9 +24,10 @@ const main = () => {
     app.use(express.json());
 
     app.use("/users", usersRouter);
+    app.use("/calendar", calendarRouter);
 
     db.sequelize
-        .sync({alter: true})
+        .sync({})
         .then(() => {
             console.log("Base de datos sincronizada correctamente.");
 
