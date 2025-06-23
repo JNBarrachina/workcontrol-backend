@@ -55,7 +55,7 @@ const getEmployeeWorkEntry = async(req, res) => {
 const deleteEmployeeWorkEntry = async(req, res) => {
     try {
         const employees = await EmployeeWorkEntry.destroy({where: {id: req.body.id}});
-        res.send(employees);
+        res.status(201).send(employees);
     } catch (error) {
         return res.status(500).send("Borrado fallida", error);
     }
