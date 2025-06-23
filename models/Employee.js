@@ -27,6 +27,7 @@ const Employee = db.sequelize.define(
             allowNull: false,
             unique: true,
         },
+        //telefono
         tlf: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -50,10 +51,6 @@ const Employee = db.sequelize.define(
 
 Employee.hasMany(EmployeeDailyCalendar);
 EmployeeDailyCalendar.belongsTo(Employee);
-
-Employee.hasMany(EmployeeWorkEntry);
-EmployeeWorkEntry.belongsTo(Employee);
-
 Employee.hasMany(MonthlyWorkValidation);
 MonthlyWorkValidation.belongsTo(Employee);
 

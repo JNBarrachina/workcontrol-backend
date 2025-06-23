@@ -14,7 +14,7 @@ const getMonthUserCalendar = async (req, res) => {
     console.log(year, month);
     console.log(startDate, endDate);
 
-    const userId = 1
+    const userId = 1;
 
     try {
         const userMonthCalendar = await EmployeeDailyCalendar.findAll({ 

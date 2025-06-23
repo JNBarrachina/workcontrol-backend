@@ -1,9 +1,11 @@
 //Rama Tomas
 const port = 3000;
+const mysql = './db.js';
 
 const express = require("express");
 const cors = require("cors");
 const db = require("./db");
+
 const authMiddleware = require("./middlewares/auth");
 const Employee = require("./models/Employee");
 const Project = require("./models/Project");
@@ -14,8 +16,10 @@ const EmployeeWorkEntry = require("./models/EmployeeWorkEntry");
 const MonthlyWorkValidation = require("./models/MonthlyWorkValidation");
 const EmployeeProjectAssignment = require("./models/EmployeeProjectAssignment");
 
+const workentryRoutes = require("./routes/employeeworkentry.routes");
 const usersRouter = require("./routes/users.routes");
 const calendarRouter = require("./routes/calendar.routes");
+const fetchs = require("./routes/fetch.routes");
 
 const main = () => {
     const app = express();
@@ -25,11 +29,15 @@ const main = () => {
 
     app.use("/users", usersRouter);
     app.use("/calendar", calendarRouter);
+    app.use('fetchs', fetchs);
 
-    db.sequelize
-        .sync({})
-        .then(() => {
-            console.log("Base de datos sincronizada correctamente.");
+    app.use("/api", workentryRoutes);
+
+  db.sequelize.sync({ alter: true } )
+    .then(() => {
+      console.log("Base de datos sincronizada correctamente.");
+
+
 
             app.listen(port, () => {
                 console.log(`Servidor escuchando en puerto ${port}`);
