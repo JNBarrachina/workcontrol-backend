@@ -14,6 +14,7 @@ require("./models/EmployeeWorkEntry");
 require("./models/MonthlyWorkValidation");
 require("./models/EmployeeProjectAssignment");
 
+const workentryRoutes = require("./routes/employeeworkentry.routes");
 const usersRouter = require("./routes/users.routes");
 const calendarRouter = require("./routes/calendar.routes");
 
@@ -25,6 +26,7 @@ const main = () => {
 
     app.use("/users", authMiddleware.authMiddleware, usersRouter);
     app.use("/calendar", calendarRouter);
+    app.use("/api", workentryRoutes);
 
     db.sequelize
         .sync({})

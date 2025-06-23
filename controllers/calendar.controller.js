@@ -4,19 +4,24 @@ const EmployeeDailyCalendar = require("../models/EmployeeDailyCalendar");
 const DayCodes = require("../models/DayCode");
 
 const getMonthUserCalendar = async (req, res) => {
-    const year = parseInt(req.params.date.split("-")[0]);
-    const month = parseInt(req.params.date.split("-")[1]);
-    console.log(typeof year, typeof month);
+    const [yearStr, monthStr] = req.params.date.split("-");
+    const year = parseInt(yearStr);
+    const month = parseInt(monthStr);
 
-    const userId = 1
+    const paddedMonth = monthStr.padStart(2, "0");
+    const startDate = `${year}-${paddedMonth}-01`;
+    const endDateObj = new Date(year, month, 0); // último día del mes
+    const endDate = endDateObj.toISOString().slice(0, 10);
+
+    const userId = 1;
 
     try {
         const userMonthCalendar = await EmployeeDailyCalendar.findAll({ 
             where: {
                 EmployeeId: userId,
                 date: {
-                    [Op.gte]: `${year}-${month}-01`,
-                    [Op.lte]: `${year}-${month}-31`
+                    [Op.gte]: startDate,
+                    [Op.lte]: endDate
                 }
             }, 
             include: {

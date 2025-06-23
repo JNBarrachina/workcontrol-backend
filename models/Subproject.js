@@ -16,7 +16,7 @@ const Subproject = db.sequelize.define(
     }
 );
 
-Subproject.hasMany(EmployeeWorkEntry);
-EmployeeWorkEntry.belongsTo(Subproject);
+Subproject.hasMany(EmployeeWorkEntry, { foreignKey: "subprojectId" });
+EmployeeWorkEntry.belongsTo(Subproject, { foreignKey: "subprojectId" });
 
 module.exports = Subproject;
