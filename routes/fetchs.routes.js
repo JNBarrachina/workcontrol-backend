@@ -1,14 +1,10 @@
 const express = require("express");
 
-const router = express.Router();
 const db = require('../db.js');
-
-const Employee =  require("../modelsEmployee");
-const Project =  require("../modelsProject");
-const Subproject =  require("../modelsSubproject");
+const router = express.Router();
 
 //ADMIN
-    app.get('/employeeds_projects', async (req, res)=>{
+    router.get('/employeeds_projects', async (req, res)=>{
         try{
             const results = await db.sequelize.query(`
                 select e.name as Employeed, p.name as 'Assigned Project', ea.assignedAT as 'Date Assigned'
@@ -30,7 +26,7 @@ const Subproject =  require("../modelsSubproject");
     });
 
     //USER
-    app.post('employeed_assigned', async (req, res)=>{
+    router.post('/employeed_assigned', async (req, res)=>{
         try{
             const {rol, name} = req?.body;
 
