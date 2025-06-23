@@ -43,8 +43,31 @@ const createWorkEntry = async(req, res) => {
 
 }
 
+const getEmployeeWorkEntry = async(req, res) => {
+    const employees = await EmployeeWorkEntry.findAll({where: {employeeId: req.body.id}});
+    const subprojectwoks = employees.map((employee) => {
+        return {
+            SubprojectId: employee.SubprojectId,
+        };
+    });
+    res.send(subprojectwoks);
+}
+const deleteEmployeeWorkEntry = async(req, res) => {
+    try {
+        const employees = await EmployeeWorkEntry.destroy({where: {id: req.body.id}});
+        res.status(201).send(employees);
+    } catch (error) {
+        return res.status(500).send("Borrado fallida", error);
+    }
+}
+
+
 exports.createWorkEntry = createWorkEntry
 exports.getEmployeeId = getEmployeeId
+
+exports.getEmployeeWorkEntry = getEmployeeWorkEntry
+exports.deleteEmployeeWorkEntry = deleteEmployeeWorkEntry
+
 
 const { Op } = require("sequelize");
 
