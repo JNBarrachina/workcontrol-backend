@@ -9,6 +9,7 @@ const db = require("./db");
 const Employee =  require("./models/Employee");
 const Prject =  require("./models/Project");
 const Subproject =  require("./models/Subproject");
+
 require("./models/DayCode");
 require("./models/EmployeeDailyCalendar");
 require("./models/EmployeeWorkEntry");
@@ -16,6 +17,7 @@ require("./models/MonthlyWorkValidation");
 require("./models/EmployeeProjectAssignment");
 
 const usersRouter = require("./routes/users.routes");
+const calendarRouter = require("./routes/calendar.routes");
 
 const main = () => {
     const app = express();
@@ -23,7 +25,8 @@ const main = () => {
     app.use(cors());
     app.use(express.json());
 
-    app.use("/users", usersRouter);
+    app.use("/users", authMiddleware.authMiddleware, usersRouter);
+    app.use("/calendar", calendarRouter);
 
     //ADMIN
     app.get('/employeeds_projects', async (req, res)=>{
@@ -71,7 +74,7 @@ const main = () => {
     });
 
     db.sequelize
-        .sync({alter: true})
+        .sync({})
         .then(() => {
             console.log("Base de datos sincronizada correctamente.");
 
