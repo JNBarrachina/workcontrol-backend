@@ -4,14 +4,15 @@ const EmployeeDailyCalendar = require("../models/EmployeeDailyCalendar");
 const DayCodes = require("../models/DayCode");
 
 const getMonthUserCalendar = async (req, res) => {
-    const [yearStr, monthStr] = req.params.date.split("-");
-    const year = parseInt(yearStr);
-    const month = parseInt(monthStr);
+    console.log(req.params.date);
+    const year = parseInt(req.params.date.split("-")[0]);
+    const month = parseInt(req.params.date.split("-")[1]);
 
-    const paddedMonth = monthStr.padStart(2, "0");
-    const startDate = `${year}-${paddedMonth}-01`;
-    const endDateObj = new Date(year, month, 0); // último día del mes
-    const endDate = endDateObj.toISOString().slice(0, 10);
+    const startDate = new Date(Date.UTC(year, month - 1, 1)).toISOString().slice(0, 10);
+    const endDate = new Date(Date.UTC(year, month, 0)).toISOString().slice(0, 10);
+
+    console.log(year, month);
+    console.log(startDate, endDate);
 
     const userId = 1;
 
@@ -20,8 +21,7 @@ const getMonthUserCalendar = async (req, res) => {
             where: {
                 EmployeeId: userId,
                 date: {
-                    [Op.gte]: startDate,
-                    [Op.lte]: endDate
+                    [Op.between]: [startDate, endDate]
                 }
             }, 
             include: {
@@ -31,6 +31,23 @@ const getMonthUserCalendar = async (req, res) => {
             order: [["date", "ASC"]]
         });
 
+        // if (userMonthCalendar.length === 0) {
+        //     const { generateMonthlyCalendar } = require("../utils/calendarUtils");
+        //     await generateMonthlyCalendar(userId, month, year);
+
+        //     // volver a hacer la consulta después de insertar
+        //     const freshMonthData = await EmployeeDailyCalendar.findAll({ 
+        //         where: {
+        //         EmployeeId: userId,
+        //         date: {
+        //             [Op.like]: `${year}-${String(month).padStart(2, '0')}%`,
+        //         }
+        //         }
+        //     });
+
+        // return res.status(200).json(freshMonthData);
+        // }
+
         res.status(200).json(userMonthCalendar);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -39,21 +56,21 @@ const getMonthUserCalendar = async (req, res) => {
 
 const patchUserDayType = async (req, res) => {
     const dayId = req.params.day;
-    const dayType = parseInt(req.body.DayType);
+    const dayType = parseInt(req.body.DayCodeId);
 
     console.log(dayId, dayType);
 
-    // try {
-    //     const updatedDay = await EmployeeDailyCalendar.update(
-    //         { DayCodeId: dayType },
-    //         { where: { id: dayId } }
-    //     );
+    try {
+        const updatedDay = await EmployeeDailyCalendar.update(
+            { DayCodeId: dayType },
+            { where: { id: dayId } }
+        );
 
-    //     console.log(updatedDay);
-    //     res.status(200)
-    // } catch (error) {
-    //     res.status(500).json({ message: error.message });
-    // }
+        console.log(updatedDay);
+        res.status(200)
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 };
 
 
