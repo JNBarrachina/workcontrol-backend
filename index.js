@@ -1,6 +1,5 @@
 //Rama Tomas
 const port = 3000;
-const mysql = './db.js';
 
 const express = require("express");
 const cors = require("cors");
@@ -31,20 +30,18 @@ const main = () => {
     app.use('fetchs', fetchs);
 
 
-  db.sequelize.sync({ alter: true } )
+db.sequelize.sync({} )
     .then(() => {
-      console.log("Base de datos sincronizada correctamente.");
-
-
-
-            app.listen(port, () => {
-                console.log(`Servidor escuchando en puerto ${port}`);
-            });
-        })
-
-        .catch((error) => {
-            console.error("Error sincronizando base de datos:", error);
+    console.log("Base de datos sincronizada correctamente.");
+    
+    app.listen(port, () => {
+        console.log(`Servidor escuchando en puerto ${port}`);
         });
+    })
+
+    .catch((error) => {
+        console.error("Error sincronizando base de datos:", error);
+    });
 };
 
 main();
