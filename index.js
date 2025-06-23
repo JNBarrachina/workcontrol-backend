@@ -5,14 +5,14 @@ const express = require("express");
 const cors = require("cors");
 const db = require("./db");
 const authMiddleware = require("./middlewares/auth");
-require("./models/Employee");
-require("./models/Project");
-require("./models/Subproject");
-require("./models/DayCode");
-require("./models/EmployeeDailyCalendar");
-require("./models/EmployeeWorkEntry");
-require("./models/MonthlyWorkValidation");
-require("./models/EmployeeProjectAssignment");
+const Employee = require("./models/Employee");
+const Project = require("./models/Project");
+const SubProject = require("./models/Subproject");
+const DayCode = require("./models/DayCode");
+const EmployeeDailyCalendar = require("./models/EmployeeDailyCalendar");
+const EmployeeWorkEntry = require("./models/EmployeeWorkEntry");
+const MonthlyWorkValidation = require("./models/MonthlyWorkValidation");
+const EmployeeProjectAssignment = require("./models/EmployeeProjectAssignment");
 
 const usersRouter = require("./routes/users.routes");
 const calendarRouter = require("./routes/calendar.routes");
@@ -23,7 +23,7 @@ const main = () => {
     app.use(cors());
     app.use(express.json());
 
-    app.use("/users", authMiddleware.authMiddleware, usersRouter);
+    app.use("/users", usersRouter);
     app.use("/calendar", calendarRouter);
 
     db.sequelize
