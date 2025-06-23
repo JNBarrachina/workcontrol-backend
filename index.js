@@ -29,7 +29,6 @@ const main = () => {
     app.use("/users", usersRouter);
     app.use("/calendar", calendarRouter);
     app.use('fetchs', fetchs);
-
     app.use("/api", workentryRoutes);
 
 db.sequelize.sync({} )

@@ -1,3 +1,5 @@
+const { Op } = require("sequelize");
+
 const Employee = require("../models/Employee");
 const SubProject = require("../models/Subproject");
 const EmployeeWorkEntry = require("../models/EmployeeWorkEntry");
@@ -14,6 +16,8 @@ const getEmployeeId = async(req, res) => {
     });
     res.send(parsedEmployees);
 }
+
+//CREAR UNA NUEVA ENTRADA
 const createWorkEntry = async(req, res) => {
     const subprojectId = req.body.subprojectId;
     const employeeId = req.body.employeeId;
@@ -43,15 +47,6 @@ const createWorkEntry = async(req, res) => {
 
 }
 
-const getEmployeeWorkEntry = async(req, res) => {
-    const employees = await EmployeeWorkEntry.findAll({where: {employeeId: req.body.id}});
-    const subprojectwoks = employees.map((employee) => {
-        return {
-            SubprojectId: employee.SubprojectId,
-        };
-    });
-    res.send(subprojectwoks);
-}
 const deleteEmployeeWorkEntry = async(req, res) => {
     try {
         const employees = await EmployeeWorkEntry.destroy({where: {id: req.body.id}});
@@ -60,18 +55,6 @@ const deleteEmployeeWorkEntry = async(req, res) => {
         return res.status(500).send("Borrado fallida", error);
     }
 }
-
-
-exports.createWorkEntry = createWorkEntry
-exports.getEmployeeId = getEmployeeId
-
-exports.getEmployeeWorkEntry = getEmployeeWorkEntry
-exports.deleteEmployeeWorkEntry = deleteEmployeeWorkEntry
-
-
-const { Op } = require("sequelize");
-
-
 
 const getWorkEntriesByMonth = async (req, res) => {
     const employeeId = parseInt(req.params.employeeId);
@@ -110,4 +93,7 @@ const getWorkEntriesByMonth = async (req, res) => {
 };
 
 
+exports.getEmployeeId = getEmployeeId
+exports.createWorkEntry = createWorkEntry
+exports.deleteEmployeeWorkEntry = deleteEmployeeWorkEntry
 exports.getWorkEntriesByMonth = getWorkEntriesByMonth;
