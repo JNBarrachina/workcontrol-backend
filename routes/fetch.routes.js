@@ -85,7 +85,6 @@ const router = express.Router();
         } catch (err){
             res.status(500).send(err);
         }
-
     });
 
 module.exports = router;
