@@ -54,7 +54,7 @@ const router = express.Router();
     });
 
 
-    router.post('/employeed_subprojects_assigned', async (req, res)=>{
+    router.post('/employeed_subprojects_assignedbyId', async (req, res)=>{
     try{
             const {rol, name, id} = req?.body;
 
