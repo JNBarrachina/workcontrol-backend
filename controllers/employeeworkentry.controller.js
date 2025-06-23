@@ -73,13 +73,12 @@ const getWorkEntriesByMonth = async (req, res) => {
 
         const entries = await EmployeeWorkEntry.findAll({
             where: {
-                employeeId: employeeId,
+                EmployeeId: employeeId,
                 date: {
                     [Op.between]: [startDate, endDate],
                 },
             },
             include: [
-                { model: Employee, attributes: ["name", "surname"] },
                 { model: SubProject, attributes: ["name"] },
             ],
             order: [["date", "ASC"]],

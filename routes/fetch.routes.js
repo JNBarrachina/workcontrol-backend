@@ -27,6 +27,8 @@ const router = express.Router();
 
     //USER
     router.post('/employeed_assigned', async (req, res)=>{
+        console.log(req.body);
+
         try{
             const {rol, name} = req?.body;
 
