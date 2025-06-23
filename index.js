@@ -22,7 +22,7 @@ const main = () => {
     app.use(cors());
     app.use(express.json());
 
-    app.use("/users", authMiddleware.authMiddleware, usersRouter);
+    app.use("/users", usersRouter);
 
     db.sequelize
         .sync({alter: true})
