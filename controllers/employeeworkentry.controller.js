@@ -53,7 +53,7 @@ const getEmployeeWorkEntry = async(req, res) => {
     res.send(subprojectwoks);
 }
 const deleteEmployeeWorkEntry = async(req, res) => {
-    const employees = await EmployeeWorkEntry.destroy({where: {employeeId: req.body.id,subprojectId: req.body.SubprojectId}});
+    const employees = await EmployeeWorkEntry.destroy({where: {id: req.body.id}});
     res.send(employees);
 }
 
