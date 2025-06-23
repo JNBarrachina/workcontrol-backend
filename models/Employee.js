@@ -51,6 +51,10 @@ const Employee = db.sequelize.define(
 
 Employee.hasMany(EmployeeDailyCalendar);
 EmployeeDailyCalendar.belongsTo(Employee);
+
+Employee.hasMany(EmployeeWorkEntry);
+EmployeeWorkEntry.belongsTo(Employee);
+
 Employee.hasMany(MonthlyWorkValidation);
 MonthlyWorkValidation.belongsTo(Employee);
 

@@ -1,4 +1,3 @@
-//Rama Tomas
 const port = 3000;
 
 const express = require("express");
@@ -6,6 +5,7 @@ const cors = require("cors");
 const db = require("./db");
 
 const authMiddleware = require("./middlewares/auth");
+
 const Employee = require("./models/Employee");
 const Project = require("./models/Project");
 const SubProject = require("./models/Subproject");
@@ -31,7 +31,7 @@ const main = () => {
     app.use('fetchs', fetchs);
     app.use("/api", workentryRoutes);
 
-db.sequelize.sync({ alter: true } )
+db.sequelize.sync({})
     .then(() => {
     console.log("Base de datos sincronizada correctamente.");
     
