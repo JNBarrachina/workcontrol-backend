@@ -33,7 +33,7 @@ const main = () => {
 
     app.use("/api", workentryRoutes);
 
-  db.sequelize.sync({ alter: true } )
+  db.sequelize.sync({ } )
     .then(() => {
       console.log("Base de datos sincronizada correctamente.");
 
