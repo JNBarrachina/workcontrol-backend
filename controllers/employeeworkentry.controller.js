@@ -43,5 +43,22 @@ const createWorkEntry = async(req, res) => {
 
 }
 
+const getEmployeeWorkEntry = async(req, res) => {
+    const employees = await EmployeeWorkEntry.findAll({where: {employeeId: req.body.id}});
+    const subprojectwoks = employees.map((employee) => {
+        return {
+            SubprojectId: employee.SubprojectId,
+        };
+    });
+    res.send(subprojectwoks);
+}
+const deleteEmployeeWorkEntry = async(req, res) => {
+    const employees = await EmployeeWorkEntry.destroy({where: {employeeId: req.body.id,subprojectId: req.body.SubprojectId}});
+    res.send(employees);
+}
+
+
 exports.createWorkEntry = createWorkEntry
 exports.getEmployeeId = getEmployeeId
+exports.getEmployeeWorkEntry = getEmployeeWorkEntry
+exports.deleteEmployeeWorkEntry = deleteEmployeeWorkEntry
