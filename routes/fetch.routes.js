@@ -11,19 +11,17 @@ router.get('/employeed_assigned', async (req, res)=>{
 
         const results = await db.sequelize.query(`
         SELECT 
-        e.name AS Employeed, 
-        p.name AS 'Assigned Project', 
-        su.name AS 'Assigned SubProject', 
-        ea.assignedAT AS 'Date Assigned'
-        FROM 
-        workcontroldb.employees e, 
-        workcontroldb.employeeprojectassignments ea, 
-        workcontroldb.projects p, 
-        workcontroldb.subprojects su
-        WHERE 
-        ea.EmployeeId = e.id AND 
-        ea.ProjectId = p.id AND 
-        su.ProjectId = p.id;
+            e.name AS Employeed, 
+            p.name AS 'Assigned Project', 
+            su.name AS 'Assigned SubProject', 
+            ea.assignedAT AS 'Date Assigned'
+            FROM 
+            workcontroldb.employees e, 
+            workcontroldb.employeeprojectassignments ea, 
+            workcontroldb.projects p, 
+            workcontroldb.subprojects su
+            WHERE 
+            p.id = su.ProjectId;
         `, );
 
         if (!results) {
