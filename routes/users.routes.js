@@ -5,13 +5,14 @@ const {createSubproject} = require("../controllers/subproject.controller")
 const {createWorkEntry} = require("../controllers/employeeworkentry.controller")
 const {getEmployeeId} = require("../controllers/employeeworkentry.controller")
 const {deleteEmployeeWorkEntry} = require("../controllers/employeeworkentry.controller");
+const {getUserProjects} = require("../controllers/employeeworkentry.controller");
 const router = express.Router();
 
 router.post("/login", loginUser);
-router.post("/workentry", createWorkEntry)
-router.get("/workentry", getEmployeeId)
-router.delete("/worksentry", deleteEmployeeWorkEntry)
+router.get("/userprojects/:id", getUserProjects)
+router.get("/employee", getEmployeeId)
+router.post("/newworkentry", createWorkEntry)
+router.delete("/rmworkentry", deleteEmployeeWorkEntry)
 
 router.post("/subproject", createSubproject)
-
 module.exports = router;

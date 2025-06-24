@@ -1,6 +1,7 @@
 const { Op } = require("sequelize");
 
 const Employee = require("../models/Employee");
+const Project = require("../models/Project");
 const SubProject = require("../models/Subproject");
 const EmployeeWorkEntry = require("../models/EmployeeWorkEntry");
 
@@ -16,6 +17,34 @@ const getEmployeeId = async(req, res) => {
     });
     res.send(parsedEmployees);
 }
+
+//GET DE LOS PROYECTOS Y SUBPROYECTOS DE UN EMPLEADO
+const getUserProjects = async(req, res) => {
+    const id = Number(req.params.id);
+
+    try {
+        const employee = await Employee.findByPk(id, {
+            include: {
+                model: Project,
+            through: { attributes: [] }, // opcional: para no incluir datos de la tabla intermedia
+                include: {
+                model: SubProject,
+                },
+            },
+        });
+
+        if (!employee) {
+            return res.status(404).json({ message: "Empleado no encontrado" });
+        }
+
+        res.status(200).json({ data: employee.Projects });
+
+    } catch (error) {
+        console.error("Error al obtener subproyectos:", error);
+        res.status(500).json({ message: "Error interno del servidor" });
+    }
+}
+
 
 //CREAR UNA NUEVA ENTRADA
 const createWorkEntry = async(req, res) => {
@@ -43,8 +72,6 @@ const createWorkEntry = async(req, res) => {
     });
 
     res.status(201).send({id: createdWorkEntry.id})
-
-
 }
 
 const deleteEmployeeWorkEntry = async(req, res) => {
@@ -93,6 +120,7 @@ const getWorkEntriesByMonth = async (req, res) => {
 
 
 exports.getEmployeeId = getEmployeeId
+exports.getUserProjects = getUserProjects
 exports.createWorkEntry = createWorkEntry
 exports.deleteEmployeeWorkEntry = deleteEmployeeWorkEntry
 exports.getWorkEntriesByMonth = getWorkEntriesByMonth;
