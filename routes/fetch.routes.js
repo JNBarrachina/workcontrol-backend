@@ -4,6 +4,40 @@ const db = require('../db.js');
 const router = express.Router();
 
 //ADMIN
+router.get('/employeed_assigned', async (req, res)=>{
+    console.log(req.body);
+
+    try{
+
+        const results = await db.sequelize.query(`
+        SELECT 
+        e.name AS Employeed, 
+        p.name AS 'Assigned Project', 
+        su.name AS 'Assigned SubProject', 
+        ea.assignedAT AS 'Date Assigned'
+        FROM 
+        workcontroldb.employees e, 
+        workcontroldb.employeeprojectassignments ea, 
+        workcontroldb.projects p, 
+        workcontroldb.subprojects su
+        WHERE 
+        ea.EmployeeId = e.id AND 
+        ea.ProjectId = p.id AND 
+        su.ProjectId = p.id;
+        `, );
+
+        if (!results) {
+            res.status(400).send("NO_ASSIGNED_PROJECTS");
+            return;
+        }
+
+        res.status(201).json( results );
+
+    } catch (err){
+        res.status(500).send(err);
+    }
+});
+
     router.get('/employeeds_projects', async (req, res)=>{
         try{
             const results = await db.sequelize.query(`
