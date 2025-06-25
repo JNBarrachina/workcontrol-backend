@@ -1,12 +1,11 @@
-//Rama Tomas
 const port = 3000;
-const mysql = "./db.js";
 
 const express = require("express");
 const cors = require("cors");
 const db = require("./db");
 
 const authMiddleware = require("./middlewares/auth");
+
 const Employee = require("./models/Employee");
 const Project = require("./models/Project");
 const SubProject = require("./models/Subproject");
@@ -29,8 +28,7 @@ const main = () => {
 
     app.use("/users", usersRouter);
     app.use("/calendar", calendarRouter);
-    app.use("fetchs", fetchs);
-
+    app.use("/fetchs", fetchs);
     app.use("/api", workentryRoutes);
 
     db.sequelize

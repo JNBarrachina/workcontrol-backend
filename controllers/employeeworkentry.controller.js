@@ -1,4 +1,7 @@
+const { Op } = require("sequelize");
+
 const Employee = require("../models/Employee");
+const Project = require("../models/Project");
 const SubProject = require("../models/Subproject");
 const EmployeeWorkEntry = require("../models/EmployeeWorkEntry");
 
@@ -14,6 +17,36 @@ const getEmployeeId = async(req, res) => {
     });
     res.send(parsedEmployees);
 }
+
+//GET DE LOS PROYECTOS Y SUBPROYECTOS DE UN EMPLEADO
+const getUserProjects = async(req, res) => {
+    const id = Number(req.params.id);
+
+    try {
+        const employee = await Employee.findByPk(id, {
+            include: {
+                model: Project,
+            through: { attributes: [] }, // opcional: para no incluir datos de la tabla intermedia
+                include: {
+                model: SubProject,
+                },
+            },
+        });
+
+        if (!employee) {
+            return res.status(404).json({ message: "Empleado no encontrado" });
+        }
+
+        res.status(200).json({ data: employee.Projects });
+
+    } catch (error) {
+        console.error("Error al obtener subproyectos:", error);
+        res.status(500).json({ message: "Error interno del servidor" });
+    }
+}
+
+
+//CREAR UNA NUEVA ENTRADA
 const createWorkEntry = async(req, res) => {
     const subprojectId = req.body.subprojectId;
     const employeeId = req.body.employeeId;
@@ -39,19 +72,8 @@ const createWorkEntry = async(req, res) => {
     });
 
     res.status(201).send({id: createdWorkEntry.id})
-
-
 }
 
-const getEmployeeWorkEntry = async(req, res) => {
-    const employees = await EmployeeWorkEntry.findAll({where: {employeeId: req.body.id}});
-    const subprojectwoks = employees.map((employee) => {
-        return {
-            SubprojectId: employee.SubprojectId,
-        };
-    });
-    res.send(subprojectwoks);
-}
 const deleteEmployeeWorkEntry = async(req, res) => {
     try {
         const employees = await EmployeeWorkEntry.destroy({where: {id: req.body.id}});
@@ -60,18 +82,6 @@ const deleteEmployeeWorkEntry = async(req, res) => {
         return res.status(500).send("Borrado fallida", error);
     }
 }
-
-
-exports.createWorkEntry = createWorkEntry
-exports.getEmployeeId = getEmployeeId
-
-exports.getEmployeeWorkEntry = getEmployeeWorkEntry
-exports.deleteEmployeeWorkEntry = deleteEmployeeWorkEntry
-
-
-const { Op } = require("sequelize");
-
-
 
 const getWorkEntriesByMonth = async (req, res) => {
     const employeeId = parseInt(req.params.employeeId);
@@ -90,13 +100,12 @@ const getWorkEntriesByMonth = async (req, res) => {
 
         const entries = await EmployeeWorkEntry.findAll({
             where: {
-                employeeId: employeeId,
+                EmployeeId: employeeId,
                 date: {
                     [Op.between]: [startDate, endDate],
                 },
             },
             include: [
-                { model: Employee, attributes: ["name", "surname"] },
                 { model: SubProject, attributes: ["name"] },
             ],
             order: [["date", "ASC"]],
@@ -110,4 +119,8 @@ const getWorkEntriesByMonth = async (req, res) => {
 };
 
 
+exports.getEmployeeId = getEmployeeId
+exports.getUserProjects = getUserProjects
+exports.createWorkEntry = createWorkEntry
+exports.deleteEmployeeWorkEntry = deleteEmployeeWorkEntry
 exports.getWorkEntriesByMonth = getWorkEntriesByMonth;
