@@ -31,7 +31,7 @@ const main = () => {
     app.use('/fetchs', fetchs);
     app.use("/api", workentryRoutes);
 
-db.sequelize.sync({})
+db.sequelize.sync()
     .then(() => {
     console.log("Base de datos sincronizada correctamente.");
     
