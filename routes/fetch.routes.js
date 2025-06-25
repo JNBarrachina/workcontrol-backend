@@ -40,7 +40,7 @@ const router = express.Router();
         console.log(req.body);
 
         try{
-            const {rol, name} = req?.body;
+            const {rol, id} = req?.body;
 
             const results = await db.sequelize.query(`
             SELECT 
@@ -57,9 +57,9 @@ const router = express.Router();
             ea.EmployeeId = e.id AND 
             ea.ProjectId = p.id AND 
             su.ProjectId = p.id AND
-            e.name = :name;
+            e.id = :id;
             `, {
-                replacements: { name },  
+                replacements: { id },  
                 type: db.sequelize.QueryTypes.SELECT 
             });
 

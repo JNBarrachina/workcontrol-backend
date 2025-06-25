@@ -77,7 +77,7 @@ const createWorkEntry = async(req, res) => {
 const deleteEmployeeWorkEntry = async(req, res) => {
     try {
         const employees = await EmployeeWorkEntry.destroy({where: {id: req.body.id}});
-        res.status(201).send(employees);
+        res.status(201)
     } catch (error) {
         return res.status(500).send("Borrado fallida", error);
     }
@@ -106,7 +106,15 @@ const getWorkEntriesByMonth = async (req, res) => {
                 },
             },
             include: [
-                { model: SubProject, attributes: ["name"] },
+                { model: SubProject, attributes: ["name"],
+                    include: [
+                    {
+                    model: Project,
+                    attributes: ["name"]
+                    }
+                    ]
+                },
+                
             ],
             order: [["date", "ASC"]],
         });
