@@ -65,7 +65,7 @@ const patchUserDayType = async (req, res) => {
         );
 
         console.log(updatedDay);
-        res.status(200)
+        res.sendStatus(200)
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
