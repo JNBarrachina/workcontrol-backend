@@ -26,7 +26,7 @@ const getUserProjects = async(req, res) => {
         const employee = await Employee.findByPk(id, {
             include: {
                 model: Project,
-            through: { attributes: [] }, // opcional: para no incluir datos de la tabla intermedia
+            through: { attributes: [] },
                 include: {
                 model: SubProject,
                 },
@@ -45,41 +45,62 @@ const getUserProjects = async(req, res) => {
     }
 }
 
-
-//CREAR UNA NUEVA ENTRADA
-const createWorkEntry = async(req, res) => {
-    const subprojectId = req.body.subprojectId;
-    const employeeId = req.body.employeeId;
-    const foundSubproject = await SubProject.findByPk(subprojectId);
-    if (!foundSubproject) {
-        res.status(404).send("SubProject not found");
-        return;
-    }
+const createWorkEntry = async (req, res) => {
     
-    const foundEmployee = await Employee.findByPk(employeeId);
-    if (!foundEmployee) {
-        res.status(404).send("Employee not found");
+    const EmployeeId = req.body.EmployeeId;
+    const SubprojectId = req.body.SubprojectId;
+
+    try {
+        const foundEmployee = await Employee.findByPk(EmployeeId);
+        if (!foundEmployee) {
+            return res.status(404).send({ msg: "Employee not found" });
+        }
+
+        const foundSubproject = await SubProject.findByPk(SubprojectId);
+        if (!foundSubproject) {
+            return res.status(404).send({ msg: "SubProject not found" });
+        }
+
+        const dateworkentry = req.body.date;
+        const hoursworkentry = req.body.hours;
+
+        const createdWorkEntry = await EmployeeWorkEntry.create({
+            date: dateworkentry,
+            hours: hoursworkentry,
+            SubprojectId: SubprojectId,
+            EmployeeId: EmployeeId,
+        });
+
+        const checkedNewWorkEntry = await EmployeeWorkEntry.findByPk(createdWorkEntry.id, {
+            include: [
+            {
+                model: SubProject,
+                attributes: ["name"],
+                include: [
+                    {
+                        model: Project,
+                        attributes: ["name"]
+                    }
+            ]
+            }
+        ]
+        });
+
+        
+        return res.status(201).json({ checkedNewWorkEntry });
+    } catch (error) {
+        console.error("Error al crear la entrada de trabajo:", error);
+        return res.status(500).json({ msg: "Internal server error" });
     }
+};
 
-    const dateworkentry = req.body.date;
-    const hoursworkentry = req.body.hours;
-
-    const createdWorkEntry = await EmployeeWorkEntry.create({
-        date: dateworkentry,
-        hours: hoursworkentry,
-        subprojectId: subprojectId,
-        employeeId: employeeId,
-    });
-
-    res.status(201).send({id: createdWorkEntry.id})
-}
 
 const deleteEmployeeWorkEntry = async(req, res) => {
     try {
         const employees = await EmployeeWorkEntry.destroy({where: {id: req.body.id}});
-        res.status(201)
+        return res.status(201).json({msg: "Borrado exitoso"});
     } catch (error) {
-        return res.status(500).send("Borrado fallida", error);
+        return res.status(500).send({msg: "Borrado fallida"}, error);
     }
 }
 

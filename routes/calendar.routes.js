@@ -3,7 +3,7 @@ const {getMonthUserCalendar, patchUserDayType} = require("../controllers/calenda
 
 const router = express.Router();
 
-router.get("/:date", getMonthUserCalendar);
+router.get("/:userId/:date", getMonthUserCalendar);
 router.patch("/:day", patchUserDayType);
 
 module.exports = router;

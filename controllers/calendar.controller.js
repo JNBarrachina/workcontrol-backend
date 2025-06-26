@@ -4,7 +4,7 @@ const EmployeeDailyCalendar = require("../models/EmployeeDailyCalendar");
 const DayCodes = require("../models/DayCode");
 
 const getMonthUserCalendar = async (req, res) => {
-    console.log(req.params.date);
+    const userId = req.params.userId;
     const year = parseInt(req.params.date.split("-")[0]);
     const month = parseInt(req.params.date.split("-")[1]);
 
@@ -13,8 +13,6 @@ const getMonthUserCalendar = async (req, res) => {
 
     console.log(year, month);
     console.log(startDate, endDate);
-
-    const userId = 1;
 
     try {
         const userMonthCalendar = await EmployeeDailyCalendar.findAll({ 
@@ -67,7 +65,7 @@ const patchUserDayType = async (req, res) => {
         );
 
         console.log(updatedDay);
-        res.status(200)
+        res.sendStatus(200)
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
