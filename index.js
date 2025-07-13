@@ -20,6 +20,7 @@ const workentryRoutes = require("./routes/employeeworkentry.routes");
 const usersRouter = require("./routes/users.routes");
 const calendarRouter = require("./routes/calendar.routes");
 const fetchs = require("./routes/fetch.routes");
+const projectRouter = require("./routes/proyect.routes");
 
 const main = () => {
     const app = express();
@@ -31,6 +32,7 @@ const main = () => {
     app.use("/calendar", calendarRouter);
     app.use('/fetchs', fetchs);
     app.use("/api", workentryRoutes);
+    app.use("/project", projectRouter);
 
 db.sequelize.sync()
     .then(() => {
