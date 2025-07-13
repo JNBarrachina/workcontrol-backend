@@ -12,12 +12,12 @@ router.post("/", async (req, res) => {
             return res.status(400).json({ error: "No se envió ningún archivo." });
         }
 
-        const uploadsDir = path.join(__dirname, "../uploads");
+        const uploadsDir = path.join(__dirname, "../uploads/pictures");
         if (!fs.existsSync(uploadsDir)) {
             fs.mkdirSync(uploadsDir);
         }
 
-        const nombreArchivo = `firma_${user}_${Date.now()}.png`;
+        const nombreArchivo = `firma_${user}.png`;
         const rutaArchivo = path.join(uploadsDir, nombreArchivo);
 
         archivo.mv(rutaArchivo, (err) => {
