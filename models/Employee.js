@@ -27,7 +27,6 @@ const Employee = db.sequelize.define(
             allowNull: false,
             unique: true,
         },
-        //telefono
         tlf: {
             type: DataTypes.STRING,
             allowNull: false,

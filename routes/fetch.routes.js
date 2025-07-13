@@ -13,10 +13,10 @@ const router = express.Router();
                 su.name AS 'Assigned SubProject', 
                 ea.assignedAT AS 'Date Assigned'
                 FROM 
-                workcontroldb.employees e,
-                workcontroldb.projects p, 
-                workcontroldb.subprojects su,
-                workcontroldb.employeeprojectassignments ea
+                workcontroldb.Employees e,
+                workcontroldb.Projects p, 
+                workcontroldb.Subprojects su,
+                workcontroldb.EmployeeProjectAssignments ea
                 WHERE 
                 ea.EmployeeId = e.id AND 
                 ea.ProjectId = p.id AND 
@@ -49,10 +49,10 @@ const router = express.Router();
             su.name AS 'Assigned SubProject', 
             ea.assignedAT AS 'Date Assigned'
             FROM 
-            workcontroldb.employees e, 
-            workcontroldb.employeeprojectassignments ea, 
-            workcontroldb.projects p, 
-            workcontroldb.subprojects su
+            workcontroldb.Employees e, 
+            workcontroldb.EmployeeProjectAssignments ea, 
+            workcontroldb.Projects p, 
+            workcontroldb.Subprojects su
             WHERE 
             ea.EmployeeId = e.id AND 
             ea.ProjectId = p.id AND 
