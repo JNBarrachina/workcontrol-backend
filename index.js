@@ -18,6 +18,7 @@ const EmployeeProjectAssignment = require("./models/EmployeeProjectAssignment");
 const workentryRoutes = require("./routes/employeeworkentry.routes");
 const usersRouter = require("./routes/users.routes");
 const calendarRouter = require("./routes/calendar.routes");
+const projectsRouter = require("./routes/projects.routes");
 const fetchs = require("./routes/fetch.routes");
 
 const main = () => {
@@ -28,8 +29,9 @@ const main = () => {
 
     app.use("/users", usersRouter);
     app.use("/calendar", calendarRouter);
-    app.use('/fetchs', fetchs);
+    app.use("/projects", projectsRouter);
     app.use("/api", workentryRoutes);
+    app.use('/fetchs', fetchs);
 
 db.sequelize.sync()
     .then(() => {

@@ -15,12 +15,12 @@ const loginUser = async (req, res) => {
     //res.send(hashedPassword);
     //return;
     if (!user) {
-        res.status(404).send({ msg: "INCORRECT_USERNAME" });
+        res.status(404).send({ msg: "INCORRECT EMAIL OR PASSWORD" });
         return;
     }
     // const isPasswordMatch = bcryptjs.compareSync(password, user.password);
     if (password !== user.password) {
-        res.status(400).send({ msg: "INCORRECT_USER_OR_PASSWORD" });
+        res.status(400).send({ msg: "INCORRECT EMAIL OR PASSWORD" });
         return;
     }
 
