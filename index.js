@@ -37,7 +37,7 @@ const main = () => {
 
 
     db.sequelize
-        .sync({alter: true})
+        .sync({})
         .then(() => {
             console.log("Base de datos sincronizada correctamente.");
 
