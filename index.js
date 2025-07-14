@@ -33,24 +33,27 @@ const main = () => {
 
     app.use("/users", usersRouter);
     app.use("/calendar", calendarRouter);
+    app.use("/fetchs", fetchs);
+    app.use("/api", workentryRoutes);
     app.use("/projects", projectsRouter);
     app.use("/employees", employeesRouter);
     app.use("/employeework", workentryRoutes);
     app.use("/uploads", uploads);
     app.use('/fetchs', fetchs);
 
-db.sequelize.sync()
-    .then(() => {
-    console.log("Base de datos sincronizada correctamente.");
-    
-    app.listen(port, () => {
-        console.log(`Servidor escuchando en puerto ${port}`);
-        });
-    })
+    db.sequelize
+        .sync({})
+        .then(() => {
+            console.log("Base de datos sincronizada correctamente.");
 
-    .catch((error) => {
-        console.error("Error sincronizando base de datos:", error);
-    });
+            app.listen(port, () => {
+                console.log(`Servidor escuchando en puerto ${port}`);
+            });
+        })
+
+        .catch((error) => {
+            console.error("Error sincronizando base de datos:", error);
+        });
 };
 
 main();
