@@ -7,15 +7,6 @@ const fileUpload = require("express-fileupload");
 
 const authMiddleware = require("./middlewares/auth");
 
-const Employee = require("./models/Employee");
-const Project = require("./models/Project");
-const SubProject = require("./models/Subproject");
-const DayCode = require("./models/DayCode");
-const EmployeeDailyCalendar = require("./models/EmployeeDailyCalendar");
-const EmployeeWorkEntry = require("./models/EmployeeWorkEntry");
-const MonthlyWorkValidation = require("./models/MonthlyWorkValidation");
-const EmployeeProjectAssignment = require("./models/EmployeeProjectAssignment");
-
 const workentryRoutes = require("./routes/employeeworkentry.routes");
 const usersRouter = require("./routes/users.routes");
 const calendarRouter = require("./routes/calendar.routes");
@@ -34,15 +25,13 @@ const main = () => {
     app.use("/users", usersRouter);
     app.use("/calendar", calendarRouter);
     app.use("/fetchs", fetchs);
-    app.use("/api", workentryRoutes);
     app.use("/projects", projectsRouter);
     app.use("/employees", employeesRouter);
     app.use("/employeework", workentryRoutes);
     app.use("/uploads", uploads);
-    app.use('/fetchs', fetchs);
 
     db.sequelize
-        .sync({})
+        .sync()
         .then(() => {
             console.log("Base de datos sincronizada correctamente.");
 
