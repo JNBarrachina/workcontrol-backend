@@ -108,14 +108,11 @@ const getWorkEntriesByMonth = async (req, res) => {
     const employeeId = parseInt(req.params.employeeId);
     const [year, monthRaw] = req.params.yearMonth.split("-");
 
-    // ✅ Aseguramos mes con dos dígitos
     const month = String(monthRaw).padStart(2, "0");
 
     try {
-        // ✅ Fecha de inicio en formato ISO
         const startDate = `${year}-${month}-01`;
 
-        // ✅ Último día del mes (JS cuenta meses desde 0)
         const endDateObj = new Date(Number(year), Number(month), 0);
         const endDate = endDateObj.toISOString().slice(0, 10); // 'YYYY-MM-DD'
 
@@ -131,7 +128,7 @@ const getWorkEntriesByMonth = async (req, res) => {
                     include: [
                     {
                     model: Project,
-                    attributes: ["name"]
+                    attributes: ["name", "isEuropean"]
                     }
                     ]
                 },

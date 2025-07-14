@@ -19,6 +19,8 @@ const EmployeeProjectAssignment = require("./models/EmployeeProjectAssignment");
 const workentryRoutes = require("./routes/employeeworkentry.routes");
 const usersRouter = require("./routes/users.routes");
 const calendarRouter = require("./routes/calendar.routes");
+const projectsRouter = require("./routes/projectsmanager.routes");
+const employeesRouter = require("./routes/employeesmanager.routes");
 const fetchs = require("./routes/fetch.routes");
 const uploads = require("./routes/uploads.routes")
 
@@ -33,8 +35,11 @@ const main = () => {
     app.use("/calendar", calendarRouter);
     app.use("/fetchs", fetchs);
     app.use("/api", workentryRoutes);
+    app.use("/projects", projectsRouter);
+    app.use("/employees", employeesRouter);
+    app.use("/employeework", workentryRoutes);
     app.use("/uploads", uploads);
-
+    app.use('/fetchs', fetchs);
 
     db.sequelize
         .sync({})
