@@ -68,8 +68,40 @@ const removeEmployeeAssignment = async (req, res) => {
     }
 };
 
+const assignProjectToMultipleEmployees = async (req, res) => {
+    const { ProjectId, EmployeeIds } = req.body;
+
+    if (!ProjectId || !Array.isArray(EmployeeIds) || EmployeeIds.length === 0) {
+        return res.status(400).json({ error: "ProjectId y una lista de EmployeeIds son obligatorios." });
+    }
+
+    try {
+        const assignments = [];
+
+        for (const EmployeeId of EmployeeIds) {
+            const [assignment, created] = await EmployeeProjectAssignment.findOrCreate({
+                where: { EmployeeId, ProjectId },
+                defaults: { assignedAt: new Date() },
+            });
+
+            if (created) {
+                assignments.push(assignment);
+            }
+        }
+
+        res.status(201).json({
+            message: `Proyecto asignado con éxito`,
+        });
+    } catch (error) {
+        console.error("Error al asignar proyecto en bloque:", error);
+        res.status(500).json({ error: error.message });
+    }
+};
+
+
 module.exports = {
     getEmployeesAssignments,
     newEmployeeAssignment,
     removeEmployeeAssignment,
+    assignProjectToMultipleEmployees
 };

@@ -14,10 +14,19 @@ const Project = db.sequelize.define(
             type: DataTypes.BOOLEAN,
             allowNull: false,
         },
+        isActive: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: true,
+        },
+        closedAt: {
+            type: DataTypes.DATE,
+            allowNull: true,
+        },
     },
     {
-        timestamps: false,
-    }
+        timestamps: true,
+    },
 );
 
 Project.hasMany(Subproject);
