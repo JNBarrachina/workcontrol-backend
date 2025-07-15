@@ -13,7 +13,7 @@ const calendarRouter = require("./routes/calendar.routes");
 const projectsRouter = require("./routes/projectsmanager.routes");
 const employeesRouter = require("./routes/employeesmanager.routes");
 const fetchs = require("./routes/fetch.routes");
-const uploads = require("./routes/uploads.routes")
+const uploads = require("./routes/uploads.routes");
 
 const main = () => {
     const app = express();
