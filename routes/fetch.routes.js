@@ -133,6 +133,44 @@ const router = express.Router();
         const { year, month, id_employee } = req.params;
 
         try {
+
+            const results = await db.sequelize.query(`
+                SELECT *
+                FROM workcontroldb.monthlyworkvalidations
+                WHERE year = :year AND month = :month AND EmployeeId = :id_employee;
+            `, {
+                replacements: { year, month, id_employee },
+                type: db.sequelize.QueryTypes.SELECT 
+            });
+
+
+            if(results.length >= 1){
+                const del = await db.sequelize.query(`
+                DELETE FROM workcontroldb.monthlyworkvalidations
+                WHERE EmployeeId = :id_employee AND year = :year AND month = :month;
+            `, {
+                replacements: { id_employee, year, month, },
+                type: db.sequelize.QueryTypes.DELETE,
+            });
+            }
+
+            //cretae time cretate
+            new_date= () => {
+                const fecha = new Date();
+                const anio = fecha.getFullYear();
+                const mes = (fecha.getMonth() + 1).toString().padStart(2, '0'); // enero es 0
+                const dia = fecha.getDate().toString().padStart(2, '0');
+
+                const horas = fecha.getHours().toString().padStart(2, '0');
+                const minutos = fecha.getMinutes().toString().padStart(2, '0');
+                const segundos = fecha.getSeconds().toString().padStart(2, '0');
+
+                return `${anio}-${mes}-${dia} ${horas}:${minutos}:${segundos}`;
+            }
+
+            const fechaMysql = new_date();
+            //console.log(fechaMysql); // Ejemplo: "2025-07-15 20:05:53"
+
             await db.sequelize.query(
                 `INSERT INTO workcontroldb.monthlyworkvalidations
                 (
@@ -140,18 +178,18 @@ const router = express.Router();
                     isSignedBySupervisor, signedAtSupervisor, locked, EmployeeId
                 )
                 VALUES (
-                    NULL, :year, :month, 1, NOW(), 0, NULL, 0, :id_employee
+                    NULL, :year, :month, 1, :fechaMysql, 0, NULL, 0, :id_employee
                 );`, {
-                    replacements: { year, month, id_employee },
+                    replacements: { year, month, fechaMysql, id_employee },
                     type: db.sequelize.QueryTypes.INSERT
                 }
             );
 
-            res.json({ ok: true, message: 'Insert Timesheet ' });
+            res.json({ ok: true, message: 'Created Timesheet', date_create: `${fechaMysql}` });
 
         } catch (err) {
             console.error('Error en inserción:', err);
-            res.status(500).json({ success: false, message: 'Error en la base de datos', error: err });
+            res.status(500).json({ success: false, message: 'Error With Timesheet Created', error: err });
         }
     });
 
