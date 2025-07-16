@@ -1,7 +1,9 @@
 const { Op } = require("sequelize");
 
+const Employees = require("../models/Employee");
 const EmployeeDailyCalendar = require("../models/EmployeeDailyCalendar");
 const DayCodes = require("../models/DayCode");
+const MonthlyWorkValidation = require("../models/MonthlyWorkValidation");
 
 const getMonthUserCalendar = async (req, res) => {
     const userId = req.params.userId;
@@ -71,8 +73,34 @@ const patchUserDayType = async (req, res) => {
     }
 };
 
+const getValidationsByMonth = async (req, res) => {
+    const { year, month } = req.params;
+
+    try {
+        const validations = await MonthlyWorkValidation.findAll({
+            where: { year, month },
+            include: [
+                {
+                    model: Employees,
+                    attributes: ["id", "name", "surname", "avatar"]
+                }
+            ],
+            order: [
+                [{ model: Employees }, 'surname', 'ASC']
+            ]
+        });
+
+        res.status(200).json({ data: validations });
+    } catch (error) {
+        console.error("Error fetching validations by month:", error);
+        res.status(500).json({ error: "Server error" });
+    }
+};
+
+
 
 module.exports = {
     getMonthUserCalendar,
-    patchUserDayType
+    patchUserDayType,
+    getValidationsByMonth
 };

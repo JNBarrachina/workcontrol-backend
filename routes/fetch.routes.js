@@ -109,4 +109,50 @@ const router = express.Router();
         }
     });
 
+    router.get('/monthlyworkvalidations/:year/:month/:id_employee', async (req, res) => {
+        const { year, month, id_employee } = req.params;
+
+        try {
+            const results = await db.sequelize.query(`
+                SELECT *
+                FROM workcontroldb.monthlyworkvalidations
+                WHERE year = :year AND month = :month AND EmployeeId = :id_employee;
+            `, {
+                replacements: { year, month, id_employee },
+                type: db.sequelize.QueryTypes.SELECT 
+            });
+
+            res.json(results); // 👈 devolver los resultados como JSON
+        } catch (error) {
+            console.error("Error en GET /monthlyworkvalidations:", error);
+            res.status(500).json({ error: "Error al obtener validación mensual" });
+        }
+    });
+
+    router.post('/monthlyworkvalidations/:year/:month/:id_employee', async (req, res) => {
+        const { year, month, id_employee } = req.params;
+
+        try {
+            await db.sequelize.query(
+                `INSERT INTO workcontroldb.monthlyworkvalidations
+                (
+                    id, year, month, isSignedByEmployee, signedAtEmployee,
+                    isSignedBySupervisor, signedAtSupervisor, locked, EmployeeId
+                )
+                VALUES (
+                    NULL, :year, :month, 1, NOW(), 0, NULL, 0, :id_employee
+                );`, {
+                    replacements: { year, month, id_employee },
+                    type: db.sequelize.QueryTypes.INSERT
+                }
+            );
+
+            res.json({ ok: true, message: 'Insert Timesheet ' });
+
+        } catch (err) {
+            console.error('Error en inserción:', err);
+            res.status(500).json({ success: false, message: 'Error en la base de datos', error: err });
+        }
+    });
+
 module.exports = router;
